@@ -1,7 +1,7 @@
 name:                lambda-reductor
 version:             0.1.0.0
 github:              "SirSeruju/lambda-reductor"
-license:             GNU GPL v3.0
+license:             GNUGPL
 author:              "SirSeruju"
 maintainer:          "SirSeruju@yandex.ru"
 
