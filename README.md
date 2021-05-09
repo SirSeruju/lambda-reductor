@@ -3,8 +3,6 @@
 ## Setup
 ```console
 stack setup
-```
-```console
 stack run
 ```
 
