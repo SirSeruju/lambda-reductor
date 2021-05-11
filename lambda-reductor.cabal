@@ -11,7 +11,7 @@ homepage:       https://github.com/SirSeruju/lambda-reductor#readme
 bug-reports:    https://github.com/SirSeruju/lambda-reductor/issues
 author:         SirSeruju
 maintainer:     SirSeruju@yandex.ru
-license:        GNUGPL
+license:        GPL-3
 license-file:   LICENSE
 build-type:     Simple
 extra-source-files:
