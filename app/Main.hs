@@ -1,9 +1,7 @@
 module Main where
 
-import Parser
 import Lambda
-import Control.Applicative
-import Data.Maybe
+import Text.ParserCombinators.Parsec
 
 
 -- Syntax:
@@ -11,28 +9,36 @@ import Data.Maybe
 -- "x" - variable
 -- "(x.M)" - abstraction
 -- "(M N)" - application
-lambdaP :: Parser Expr
-lambdaP = appP <|> absP <|> varP
 
-varP :: Parser Expr
-varP = Var <$> anyCharP
+--lambda = application <|> abstraction <|> variable
+lambda = try variable <|> try abstraction <|> try application
 
-absP :: Parser Expr
-absP = Abs <$> (charP '(' *> name) <*> lambdaP <* charP ')'
+
+variable = Var <$> letter
+
+abstraction = Abs <$> (lb *> name) <* separator <*> (lambda <* rb)
   where
-        name = anyCharP <* charP '.'
+    lb = char '('
+    rb = char ')'
+    separator = char '.'
+    name = letter
 
-appP :: Parser Expr
-appP = App <$> l <* charP ' ' <*> r
+application = App <$> (lb *> lambda) <* separator <*> (lambda <* rb)
   where
-    l = charP '(' *> lambdaP
-    r = lambdaP <* charP ')'
+    lb = char '('
+    rb = char ')'
+    separator = char ' '
 
-reduct :: String -> Maybe String
-reduct s = show . reduction . snd <$> (runParser lambdaP s)
+reduct :: String -> Either ParseError String
+reduct s =
+  case parse lambda "" s of
+    Left err -> Left err
+    Right ex -> Right . show . reduction $ ex
 
 main :: IO ()
 main = do
   putStrLn "Write lambda expressions like that \"(((a.(b.a)) c) d)\":"
   expr <- getLine
-  putStrLn $ "Answer: " ++ (fromMaybe "No solution." $ reduct expr)
+  case reduct expr of
+    Left err -> print err
+    Right ex -> putStrLn $ "Answer:\n" ++ ex

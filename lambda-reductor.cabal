@@ -25,13 +25,13 @@ source-repository head
 library
   exposed-modules:
       Lambda
-      Parser
   other-modules:
       Paths_lambda_reductor
   hs-source-dirs:
       src
   build-depends:
       base >=4.7 && <5
+    , parsec
   default-language: Haskell2010
 
 executable lambda-reductor-exe
@@ -44,6 +44,7 @@ executable lambda-reductor-exe
   build-depends:
       base >=4.7 && <5
     , lambda-reductor
+    , parsec
   default-language: Haskell2010
 
 test-suite lambda-reductor-test
@@ -57,4 +58,5 @@ test-suite lambda-reductor-test
   build-depends:
       base >=4.7 && <5
     , lambda-reductor
+    , parsec
   default-language: Haskell2010
